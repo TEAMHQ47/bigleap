@@ -1,0 +1,100 @@
+package com.example.www.phofilt;
+
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
+import android.graphics.Paint;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+
+public class MainActivity extends AppCompatActivity {
+ImageView imageView;
+    Button buttonBW,buttonOG,buttonRD;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        imageView = (ImageView) findViewById(R.id.imageView);
+        buttonBW = (Button) findViewById(R.id.buttonBW);
+        buttonRD = (Button) findViewById(R.id.buttonRD);
+        buttonOG = (Button) findViewById(R.id.buttonOG);
+        buttonBW.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bitmap bitmap = getBitmap(imageView);
+                imageView.setImageBitmap(convertColor(bitmap));
+
+            }
+        });
+        buttonOG.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                imageView.setImageResource(R.drawable.bridge);
+            }
+        });
+        buttonRD.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bitmap bitmap = getBitmap(imageView);
+                imageView.setImageBitmap(redColor(bitmap, 1, 1, 1));
+
+            }
+        });
+    }
+    public Bitmap getBitmap(ImageView imageView)
+    {
+        Drawable drawable=imageView.getDrawable();
+        BitmapDrawable bitmapDrawable=((BitmapDrawable)drawable);
+        Bitmap bitmap=bitmapDrawable.getBitmap();
+        return bitmap;
+    }
+    private Bitmap convertColor(Bitmap originalBitmap)
+    {
+        ColorMatrix colorMatrix= new ColorMatrix();
+        colorMatrix.setSaturation(0);
+
+        ColorMatrixColorFilter colorMatrixFilter = new ColorMatrixColorFilter(colorMatrix);
+        Bitmap blackAndWhite= originalBitmap.copy(Bitmap.Config.ARGB_8888,true);
+        Paint paint= new Paint();
+        paint.setColorFilter(colorMatrixFilter);
+        Canvas canvas= new Canvas(blackAndWhite);
+        canvas.drawBitmap(blackAndWhite,0,0,paint);
+        return blackAndWhite;
+        }
+    public Bitmap redColor(Bitmap src,double red,double green,double blue)
+    {
+        int width=src.getWidth();
+        int height=src.getHeight();
+
+        Bitmap bmOut= Bitmap.createBitmap(width,height,src.getConfig());
+        int A,R,B,G;
+        int pixel;
+
+        for(int x=0;x<width;++x)
+        {
+            for(int y=0;y<height;++y)
+            {
+                pixel=src.getPixel(x,y);
+
+                A= Color.alpha(pixel);
+                R=(int)(Color.red(pixel)*red);
+                G=(int)(Color.green(pixel)*green);
+                B=(int)(Color.blue(pixel)*blue);
+
+                bmOut.setPixel(x,y,Color.argb(A,R,G,B));
+            }
+
+        }
+
+        return bmOut;
+    }
+    }
+
