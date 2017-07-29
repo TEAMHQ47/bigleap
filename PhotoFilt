@@ -1,0 +1,55 @@
+package com.example.www.phofilt;
+
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
+import android.graphics.Paint;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+
+public class MainActivity extends AppCompatActivity {
+ImageView imageView;
+    Button buttonSubmit;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        imageView=(ImageView)findViewById(R.id.imageView);
+        buttonSubmit=(Button)findViewById(R.id.buttonSubmit);
+        buttonSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bitmap bitmap=getBitmap(imageView);
+                imageView.setImageBitmap(convertColor(bitmap));
+
+            }
+        });
+    }
+    public Bitmap getBitmap(ImageView imageView)
+    {
+        Drawable drawable=imageView.getDrawable();
+        BitmapDrawable bitmapDrawable=((BitmapDrawable)drawable);
+        Bitmap bitmap=bitmapDrawable.getBitmap();
+        return bitmap;
+    }
+    private Bitmap convertColor(Bitmap originalBitmap)
+    {
+        ColorMatrix colorMatrix= new ColorMatrix();
+        colorMatrix.setSaturation(0);
+
+        ColorMatrixColorFilter colorMatrixFilter = new ColorMatrixColorFilter(colorMatrix);
+        Bitmap blackAndWhite= originalBitmap.copy(Bitmap.Config.ARGB_8888,true);
+        Paint paint= new Paint();
+        paint.setColorFilter(colorMatrixFilter);
+        Canvas canvas= new Canvas(blackAndWhite);
+        canvas.drawBitmap(blackAndWhite,0,0,paint);
+        return blackAndWhite;
+        }
+    }
+
