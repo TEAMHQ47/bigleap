@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black"
+    android:orientation="vertical"
+    tools:context="com.example.www.phofilt.MainActivity">
+
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="380dp"
+        android:layout_height="376dp"
+        android:layout_gravity="fill_horizontal"
+        app:srcCompat="@drawable/bridge" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        android:orientation="horizontal">
+
+
+
+
+        <Button
+            android:id="@+id/buttonBW"
+            android:layout_width="106dp"
+            android:layout_height="42dp"
+            android:layout_gravity="center"
+            android:backgroundTint="@android:color/background_light"
+            android:text="B/W"
+            android:textColor="@android:color/black" />
+
+
+        <Button
+            android:id="@+id/buttonOG"
+            android:layout_width="106dp"
+            android:layout_height="42dp"
+            android:layout_gravity="center"
+            android:backgroundTint="@android:color/holo_orange_light"
+            android:text="Original" />
+
+        <Button
+            android:id="@+id/buttonRD"
+            android:layout_width="106dp"
+            android:layout_height="42dp"
+            android:layout_gravity="center"
+            android:backgroundTint="@android:color/holo_red_dark"
+            android:text="RED" />
+    </LinearLayout>
+</LinearLayout>
